@@ -84,3 +84,20 @@ FROM retail_sales
 WHERE YEAR(`Order Date`)=2017
 GROUP BY Segmento
 ORDER BY `Ordenes` desc;
+
+
+-- Rango de descuentos
+
+SELECT sum(quantity) as 'Cantidad de productos',
+CASE
+When discount=0 then '0%'
+when discount >0 and discount <=0.2 then '1% a 20%'
+when discount >0.2 and discount <=0.4 then '21% a 40%'
+when discount >0.4 and discount <=0.6then '41% a 60%'
+when discount >0.6 and discount <=0.8 then '61% a 80%'
+else 'Mayor a 80%'
+END as 'Rango de descuento'
+From retail_sales
+WHERE YEAR(`Order Date`)=2017
+GROUP BY `Rango de descuento`
+ORDER BY `Rango de descuento`;
