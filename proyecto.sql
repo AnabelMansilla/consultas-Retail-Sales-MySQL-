@@ -65,25 +65,20 @@ Group by State
 Order by sum(Sales) desc
 Limit 5;
 
--- Cantidad de ordenes por segmentos
+-- Participacion de las categorias sobre la vental total
 
-SELECT 
-Segment as Segmento,
-COUNT(distinct `Order ID`) AS `Ordenes`,
+SELECT
+category as categoria,
+sum(Sales) as 'Total de ventas',
 CONCAT(
 ROUND(
-COUNT(distinct `Order ID`)*100/(
-SELECT 
-COUNT(distinct `Order ID`)
+(sum(Sales)/ (SELECT sum(Sales) from retail_sales where year (`Order Date`)=2017))*100
+,2)
+,'%') AS 'Porcentaje de participacion'
 FROM retail_sales
 WHERE YEAR (`Order Date`)=2017
-),
-2),
-'%') AS Porcentaje
-FROM retail_sales
-WHERE YEAR(`Order Date`)=2017
-GROUP BY Segmento
-ORDER BY `Ordenes` desc;
+GROUP BY categoria
+ORDER BY 'Total de venta';
 
 
 -- Rango de descuentos
